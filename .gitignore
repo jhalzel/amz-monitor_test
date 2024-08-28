@@ -111,6 +111,8 @@ src/ENV/
 env.bak/
 venv.bak/
 
+# Google Auth
+src/serviceAccountKey.json
 
 # Spyder project settings
 .spyderproject
