@@ -3,6 +3,12 @@ name: run main.py
 on:
   schedule:
     - cron: '0,15,30,45 * * * *' # run exactly every 15 minutes
+  push:
+    paths:
+      - 'src/trial.py'
+      - 'src/data.json' # this file changes when data is updated
+      - 'src/config.json' # this file changes when config is updated
+      - 'src/script.py' # this file changes when script is updated
   repository_dispatch:
     types: [resume_schedule]
 
@@ -11,16 +17,24 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-
       - name: checkout repo content
-        uses: actions/checkout@v2 # checkout the repository content to GitHub runner
+        uses: actions/checkout@v4 # checkout the repository content to GitHub runner
+        
+      - name: setup node
+        uses: actions/setup-node@v3
         with: 
-          node-version: '16.15.0'
+          node-version: '20'
 
       - name: setup python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9' # install the python version needed
+      
+      - name: Set Firebase Admin Key as Environment Variable
+        run: |
+          echo "$FIREBASE_ADMIN_KEY" > firebase_admin_key.json
+        env:
+          FIREBASE_ADMIN_KEY: ${{ secrets.FIREBASE_ADMIN_KEY }}
 
       - name: Restore cache
         uses: actions/cache@v2
@@ -37,14 +51,28 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-          
+
       - name: install python packages
         run: |
           python -m pip install --upgrade pip
           pip install -r src/requirements.txt
           
+      # - name: Access Deployed Flask App
+      #   run: |
+      #     # Send an HTTP request to your deployed Flask app.
+      #     response=$(curl -s -o /dev/null -w "%{http_code}" https://amazon-ecom-alarm.onrender.com)
+
+      #     # Check the response code.
+      #     if [ "$response" == "200" ]; then
+      #       echo "Flask App is accessible."
+      #     else
+      #       echo "Flask App is not accessible. Response code: $response"
+      #       exit 1
+      #     fi     
+          
       - name: execute py script # run main.py
         id: execute_script
+        timeout-minutes: 1 # Setting a timeout for 1 minute to ensure the code exits if it's taking too long
         run: python src/script.py
         env:
           SOME_SECRET: ${{ secrets.SOME_SECRET }}
@@ -58,17 +86,32 @@ jobs:
           # Gmail credentials
           GMAIL_USERNAME: ${{ secrets.GMAIL_USER }}
           GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
-          
-          
-      # - name: commit files
+          # Firebase credentials
+          FIREBASE_ADMIN_KEY: ${{ secrets.FIREBASE_ADMIN_KEY }}
+
+      # - name: Fetch updated data.json from server
       #   run: |
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     git add -A
-      #     git diff-index --quiet HEAD || (git commit -a -m "updated logs" --allow-empty)
-          
-      # - name: push changes
-      #   uses: ad-m/github-push-action@v0.6.0
+      #     # Replacing the local file with the file on the server where data.json is updated
+      #     curl -o src/data.json https://amazon-ecom-alarm.onrender.com/get_data
+
+
+      # - name: Commit and Push data.json
+      #   run: |
+      #     git config --local user.email "jeremy123jeremy@gmail.com"
+      #     git config --local user.name "jhalzel"
+      #     git add src/data.json
+      #     git commit -m "Update data.json"
+      #     git push origin rainbow-branch
+
+      # - name: Save data.json to Cache
+      #   run: |
+      #     cp src/data.json ${{ runner.workspace }}/data.json
+        
+      # Cache the 'data.json' file across workflow runs
+      # - name: Cache data.json
+      #   uses: actions/cache@v2
       #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: main
+      #     path: ${{ runner.workspace }}/data.json
+      #     key: data-json-${{ runner.os }}
+
+          
