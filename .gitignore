@@ -143,6 +143,9 @@ __azurite_db*__.json
 .python_packages
 
 
+# Mac OS
+../.*
+
 
 #Sensitive data
 
