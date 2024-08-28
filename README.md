@@ -6,7 +6,7 @@
 
 This project comprises a dashboard connected to Amazon's SP-API for seller accounts, providing real-time insights into sales data. The goal is to offer a convenient way for users, particularly sellers, to monitor their sales status and track sales patterns over time through visually informative graphs.
 
-### Link to Site: https://amazon-ecom-alarm.onrender.com
+### Link to Site: https://ecom-alarm.netlify.app
 
 ## Features
 
