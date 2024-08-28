@@ -125,7 +125,9 @@ def get_pause_status():
     try:
         # Assuming your Flask app is running on localhost:5000
         
-        response = requests.get(flask_url)
+        response = requests.get(flask_url, timeout=20)
+        response.raise_for_status()  # Raise an exception for HTTP errors
+
         if response.status_code == 200:
             data = response.json()
             return data
