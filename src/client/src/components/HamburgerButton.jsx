@@ -7,7 +7,7 @@ export const toggleDrawer = () => {
 
 export default function HamburgerButton() {
 	return (
-		<button className="btn btn-circle swap swap-rotate">
+		<button className="btn btn-circle swap swap-rotate xs">
 			{/* Hamburger icon */}
 			<input type="checkbox" onClick={() => toggleDrawer()} />
 

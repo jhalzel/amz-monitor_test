@@ -3,17 +3,28 @@
 @tailwind utilities;
 
 /* Remove default margin and padding on body and HTML elements */
-body, html {
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
 }
+html {
+  height: -webkit-fill-available;
+}
 
 body {
-  margin: 0;
-  padding: 0;
-  display: inline;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  height: 100dvh;
+  min-height: 0;
+}
+
+main {
+  flex: 1;
+  /* overflow: scroll; */
 }
 
 /* Remove scrollbar */
@@ -28,9 +39,11 @@ body::-webkit-scrollbar {
   align-items: center;
   text-align: center;
   background-color: #282c34;
-  min-height: 100vh;
-  min-width: 100vw;
+  min-height: 100dvh;
+  min-width: 100svw;
   color: whitesmoke;
+  margin: 0 auto;
+
 }
 
 /* Header styles */
@@ -187,4 +200,15 @@ header a {
 .Sales_threshold2 button:hover {
   background-color: #61dafb;
   color: #1b1d21;
+}
+
+/* Add responsive styles for smaller screens */
+@media (max-width: 320px) {
+  .App {
+      min-width: 100vw;
+  }
+  .header h6 {
+      font-size: calc(8px + 2vmin);
+  }
+  /* Adjust other styles as needed */
 }

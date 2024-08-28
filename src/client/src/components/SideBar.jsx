@@ -4,11 +4,7 @@ export default function SideBar() {
 	return (
 		<>
 			<input id="my-drawer" type="checkbox" className="drawer-toggle" />
-			{/* <div className="drawer-content"> */}
 			{/* Page content here */}
-			{/* <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
-					Open drawer
-				</label> */}
 			<label
 				htmlFor="my-drawer"
 				className="btn btn-link group h-7 w-14 rounded-lg border-2">
@@ -21,7 +17,7 @@ export default function SideBar() {
 				</div>
 			</label>
 			{/* </div> */}
-			<div className="drawer-side">
+			<div className="drawer-side z-10">
 				<label
 					htmlFor="my-drawer"
 					aria-label="close sidebar"
@@ -29,10 +25,10 @@ export default function SideBar() {
 				<ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 mt-16">
 					{/* Sidebar content here */}
 					<li>
-						<a>Sidebar Item 1</a>
+						<a>HomePage</a>
 					</li>
 					<li>
-						<a>Sidebar Item 2</a>
+						<a>Login / Sign-up</a>
 					</li>
 				</ul>
 			</div>

@@ -7,6 +7,9 @@ module.exports = {
 				'custom-bg': 'var(--fallback-bc, oklch(var(--bc)/0.2))',
 				'custom-bd': '(var(--btn-color, var(--b2)) / var(--tw-border-opacity))',
 			},
+			screens: {
+				xs: '320px', // Adding a custom breakpoint for very small screens
+			},
 		},
 	},
 	plugins: [require('daisyui')],
