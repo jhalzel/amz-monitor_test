@@ -175,7 +175,7 @@ export const Chart = ({ threshold }) => {
 				</h3>
 				<select
 					value={selectedChart}
-					className="rounded-lg px-2 py-1"
+					className="bg-custom-bg rounded-lg px-2 py-1"
 					onChangeCapture={(e) => handleChartChange(e)}>
 					<option value="default">Choose Chart</option>
 					<option value="line-chart">Line Chart</option>
@@ -323,7 +323,7 @@ export const Chart = ({ threshold }) => {
 							</ResponsiveContainer>
 						)) ||
 						(selectedChart === 'default' && (
-							<div className="flex justify-center p-20 bg-gray-200 rounded-xl">
+							<div className="bg-custom-bg flex justify-center p-20 rounded-xl">
 								<h2 className="text-2xl font-semibold ">
 									Select a Chart Type...
 								</h2>
@@ -337,7 +337,7 @@ export const Chart = ({ threshold }) => {
 						</h3>
 						<select
 							value={selectedView}
-							className="bg-fuchsia-50 rounded-lg px-2 py-1"
+							className="bg-custom-bg rounded-lg px-2 py-1"
 							onChangeCapture={handleSelectChange}>
 							<option value="default">Choose Range</option>
 							<option value="Weekly View">Weekly View</option>
