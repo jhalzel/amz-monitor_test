@@ -175,7 +175,7 @@ export const Chart = ({ threshold }) => {
 				</h3>
 				<select
 					value={selectedChart}
-					className="bg-fuchsia-50 rounded-lg px-2 py-1"
+					className="rounded-lg px-2 py-1"
 					onChangeCapture={(e) => handleChartChange(e)}>
 					<option value="default">Choose Chart</option>
 					<option value="line-chart">Line Chart</option>
