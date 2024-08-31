@@ -6,9 +6,15 @@ module.exports = {
 			backgroundColor: {
 				'custom-bg': 'var(--fallback-bc, oklch(var(--bc)/0.2))',
 				'custom-bd': '(var(--btn-color, var(--b2)) / var(--tw-border-opacity))',
+				'custom-txt': 'rgb(75 85 99 / var(--tw-text-opacity))',
+				'custom-general':
+					'oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity))',
 			},
 			screens: {
 				xs: '320px', // Adding a custom breakpoint for very small screens
+			},
+			colors: {
+				'text-base-content': 'blue', // Set your custom color
 			},
 		},
 	},

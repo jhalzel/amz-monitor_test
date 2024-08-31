@@ -1,6 +1,23 @@
 import React from 'react'
+import { useAuth } from '../context/authContext'
+import { doSignOut } from '../firebase/auth'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { toggleDrawer } from './HamburgerButton'
 
 export default function SideBar() {
+	const { userLoggedIn } = useAuth()
+	const navigate = useNavigate()
+	const handleLogout = async () => {
+		toggleDrawer() // Call this function first
+		try {
+			await doSignOut() // Await sign out completion
+			navigate('/login') // Navigate after sign out
+		} catch (error) {
+			// Handle any errors that occur during sign out
+			console.error('Sign out failed:', error)
+		}
+	}
+
 	return (
 		<>
 			<input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -21,14 +38,20 @@ export default function SideBar() {
 				<label
 					htmlFor="my-drawer"
 					aria-label="close sidebar"
-					className="drawer-overlay"></label>
-				<ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 mt-16">
+					className="drawer-overlay z-100"></label>
+				<ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
 					{/* Sidebar content here */}
 					<li>
-						<a>HomePage</a>
+						<a onClick={toggleDrawer}>HomePage</a>
 					</li>
 					<li>
-						<a>Login / Sign-up</a>
+						{userLoggedIn ? (
+							<button onClick={handleLogout}>Log Out</button>
+						) : (
+							<Link onClick={toggleDrawer} to={'/login'}>
+								Login / Register
+							</Link>
+						)}
 					</li>
 				</ul>
 			</div>

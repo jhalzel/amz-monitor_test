@@ -2,6 +2,7 @@ import React from 'react'
 import ThemeController from './ThemeController'
 import SideBar from './SideBar'
 
+
 function NavBar({ name }) {
 	return (
 		<div className="navbar bg-neutral text-neutral-content justify-between items-center w-full sm:px-4  max-w-[100vw]">

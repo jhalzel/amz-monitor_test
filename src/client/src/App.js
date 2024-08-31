@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+import Login from './pages/auth/login'
+import Register from './pages/auth/register'
+import Home from './pages/Home'
+import { AuthProvider } from './context/authContext'
+import { useRoutes } from 'react-router-dom'
 import { formatNiceDate } from './utils/formatting'
 import NavBar from './components/NavBar'
 import Chart from './components/Chart'
@@ -137,27 +142,38 @@ function App() {
 		// Call the function to update the Firebase database
 	}, [threshold])
 
+	const routes = [
+		{
+			path: '*',
+			element: <Login />,
+		},
+		{
+			path: '/',
+			element: <Login />,
+		},
+		{
+			path: '/login',
+			element: <Login />,
+		},
+		{
+			path: '/home',
+			element: (
+				<Home data={data} last_updated={last_updated} threshold={threshold} />
+			),
+		},
+		{
+			path: '/register',
+			element: <Register />,
+		},
+	]
+
+	let routesElement = useRoutes(routes)
+
 	return (
-		<>
+		<AuthProvider>
 			<NavBar name={'Seller Metrics Monitor'} />
-
-			<div className="flex flex-row-reverse">
-				<Badge
-					name={`Last Updated: ${data ? formatNiceDate(last_updated) : 'N/A'}`}
-				/>
-			</div>
-
-			{/* Input for FBM Sales Threshold */}
-
-			{data ? (
-				<>
-					<Metrics data={data[0]} />
-					<Chart threshold={threshold} />
-				</>
-			) : (
-				<p>Loading...</p>
-			)}
-		</>
+			<div className="w-full h-screen flex flex-col">{routesElement}</div>
+		</AuthProvider>
 	)
 }
 
