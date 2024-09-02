@@ -29,7 +29,7 @@ const Register = () => {
 		<div>
 			{userLoggedIn && <Navigate to={'/home'} replace={true} />}
 
-			<main className="w-full h-full flex self-center place-content-center place-items-start bg-custom-bg">
+			<main className="w-full min-h-screen flex self-center place-content-center place-items-start bg-custom-bg">
 				<div className="w-96 text-gray-600 space-y-4 py-4 p-4 shadow-xl border rounded-xl">
 					<div className="text-center mb-6">
 						<div className="mt-2">
