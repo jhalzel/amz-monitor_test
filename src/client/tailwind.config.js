@@ -21,6 +21,6 @@ module.exports = {
 	plugins: [require('daisyui')],
 	// daisyUI config (optional - here are the default values)
 	daisyui: {
-		themes: ['light', 'dark', 'coffee'], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+		themes: ['nord', 'lofi', 'dim', 'night'], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
 	},
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import { themeChange } from 'theme-change'
 
 export default function ThemeController() {
 	const [isdark, setIsdark] = useState(
@@ -12,8 +11,8 @@ export default function ThemeController() {
 
 		// Set the data-theme attribute based on the isdark state
 		isdark
-			? document.documentElement.setAttribute('data-theme', 'coffee')
-			: document.documentElement.setAttribute('data-theme', 'light')
+			? document.documentElement.setAttribute('data-theme', 'dim')
+			: document.documentElement.setAttribute('data-theme', 'nord')
 	}, [isdark])
 
 	return (

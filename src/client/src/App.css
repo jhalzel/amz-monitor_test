@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* Remove default margin and padding on body and HTML elements */
 * {
   margin: 0;

@@ -7,7 +7,7 @@ import { formatNiceDate } from '../utils/formatting'
 
 function Home({ data, threshold, last_updated }) {
 	return (
-		<div>
+		<div className="min-h-screen">
 			<div className="flex flex-row-reverse">
 				<Badge
 					name={`Last Updated: ${data ? formatNiceDate(last_updated) : 'N/A'}`}
