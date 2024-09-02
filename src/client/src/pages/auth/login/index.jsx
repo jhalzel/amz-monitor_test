@@ -3,9 +3,23 @@ import { Navigate, Link } from 'react-router-dom'
 import { useAuth } from '../../../context/authContext'
 import {
 	doSignInAnonymously,
-	doSignInWithGoogle,
 	doSignInWithEmailAndPassword,
 } from '../../../firebase/auth'
+
+export const onGoogleSignIn = (
+	e,
+	isSigningIn,
+	setIsSigningIn,
+	doSignInWithGoogle
+) => {
+	e.preventDefault()
+	if (!isSigningIn) {
+		setIsSigningIn(true)
+		doSignInWithGoogle().catch((err) => {
+			setIsSigningIn(false)
+		})
+	}
+}
 
 const Login = () => {
 	const { userLoggedIn } = useAuth()
@@ -23,16 +37,6 @@ const Login = () => {
 		}
 	}
 
-	const onGoogleSignIn = (e) => {
-		e.preventDefault()
-		if (!isSigningIn) {
-			setIsSigningIn(true)
-			doSignInWithGoogle().catch((err) => {
-				setIsSigningIn(false)
-			})
-		}
-	}
-
 	return (
 		<div>
 			{userLoggedIn && <Navigate to={'/home'} replace={true} />}
@@ -40,7 +44,7 @@ const Login = () => {
 			<main className="w-full bg-custom-bg h-screen flex self-center place-content-center place-items-center">
 				<div className="w-96 text-gray-600 space-y-5 p-4 shadow-xl border rounded-xl">
 					<div className="text-center">
-						<div className="mt-2">
+						<div className="mt-2 mb-6">
 							<h3 className="text-base-content text-xl font-semibold sm:text-2xl">
 								Welcome Back
 							</h3>
