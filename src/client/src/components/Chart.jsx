@@ -115,7 +115,6 @@ export const Chart = ({ threshold }) => {
 
 	// Fetch the data from the API
 	useEffect(() => {
-		console.log('useEffect is running...')
 		// Function to fetch the data from the API
 		const fetchData = async () => {
 			axios
@@ -128,8 +127,6 @@ export const Chart = ({ threshold }) => {
 					console.log(rawData)
 					// Initialize an empty array to store the formatted data
 					const formattedData = []
-
-					const highestVal = 0
 
 					// Loop through the rawData
 					Object.keys(rawData).forEach((key) => {
@@ -147,7 +144,7 @@ export const Chart = ({ threshold }) => {
 
 						// Push the data point into the formattedData array
 						formattedData.push(dataPoint)
-						console.log('formattedData: ', formattedData)
+						console.log('formattedData_Chart.jsx: ', formattedData)
 					})
 
 					// Set json_data
@@ -186,7 +183,7 @@ export const Chart = ({ threshold }) => {
 			</div>
 
 			<>
-				<div className="mx-8 my-4">
+				<div className="mx-8 my-6">
 					{(selectedChart === 'area-chart' && (
 						<ResponsiveContainer width="100%" height={400}>
 							<AreaChart
@@ -333,7 +330,7 @@ export const Chart = ({ threshold }) => {
 						))}
 				</div>
 				{selectedChart !== 'default' && (
-					<div className="flex justify-center p-4 my-16 shadow">
+					<div className="flex justify-center py-2 shadow">
 						<h3 className="flex self-center pr-4 font-semibold text-center px-4">
 							Adjust Timeline:
 						</h3>

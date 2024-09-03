@@ -88,7 +88,7 @@ function App() {
 		// Function to fetch the data from the API
 		const fetchData = async () => {
 			// Check current threshold value
-			console.log('threshold: ', threshold)
+			// console.log('threshold: ', threshold)
 			// Make a GET request to the API
 			axios
 				.get(`${apiUrl}/get_firebase_data`)
@@ -109,7 +109,7 @@ function App() {
 					// Push the data point into the formattedData array
 					formattedData.push(dataPoint)
 
-					console.log('formattedData: ', formattedData)
+					console.log('formattedData_App.js: ', formattedData)
 
 					// Find the last entry in formattedData
 					const lastEntry = formattedData[formattedData.length - 1]
