@@ -185,139 +185,160 @@ export const Chart = ({ threshold }) => {
 			<>
 				<div className="mx-8 my-6">
 					{(selectedChart === 'area-chart' && (
-						<ResponsiveContainer width="100%" height={400}>
-							<AreaChart
-								data={json_data}
-								width="100%"
-								height={400}
-								margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="date" />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Area
-									type="monotone"
-									dataKey="fbm_sales"
-									stackId="1"
-									stroke="#8884d8"
-									fill="#8884d8"
-								/>
-								<Area
-									type="monotone"
-									dataKey="fba_sales"
-									stackId="2"
-									stroke="#82ca9d"
-									fill="#82ca9d"
-								/>
-								<Area
-									type="monotone"
-									dataKey="fba_pending_sales"
-									stackId="3"
-									stroke="#ffc658"
-									fill="#ffc658"
-								/>
-							</AreaChart>
-						</ResponsiveContainer>
+						<>
+							<h1 className="flex justify-center text-xl font-semibold">
+								Sales Area Chart
+							</h1>
+							<ResponsiveContainer width="100%" height={400}>
+								<AreaChart
+									data={json_data}
+									width="100%"
+									height={400}
+									margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+									<CartesianGrid strokeDasharray="3 3" />
+									<XAxis dataKey="date" />
+									<YAxis />
+									<Tooltip />
+									<Legend />
+									<Area
+										type="monotone"
+										dataKey="fbm_sales"
+										stackId="1"
+										stroke="#8884d8"
+										fill="#8884d8"
+									/>
+									<Area
+										type="monotone"
+										dataKey="fba_sales"
+										stackId="2"
+										stroke="#82ca9d"
+										fill="#82ca9d"
+									/>
+									<Area
+										type="monotone"
+										dataKey="fba_pending_sales"
+										stackId="3"
+										stroke="#ffc658"
+										fill="#ffc658"
+									/>
+								</AreaChart>
+							</ResponsiveContainer>
+						</>
 					)) ||
 						(selectedChart === 'line-chart' && (
-							<div className="relative">
-								<div>
-									<ResponsiveContainer
-										width="100%"
-										height={400}
-										className="my-14">
-										<h1>Sales ($)</h1>
-										<LineChart
-											data={json_data}
+							<>
+								<h1 className="flex justify-center text-xl font-semibold">
+									Sales Line Chart
+								</h1>
+								<div className="relative">
+									<div>
+										<ResponsiveContainer
 											width="100%"
 											height={400}
-											margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-											<CartesianGrid strokeDasharray="3 3" />
+											className="my-6">
+											<LineChart
+												data={json_data}
+												width="100%"
+												height={400}
+												margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+												<CartesianGrid strokeDasharray="3 3" />
 
-											<XAxis
-												dataKey="date"
-												tick={{ fontSize: 12, fill: '#61dafb' }}
-												tickFormatter={(value) => `${value}`}
-											/>
-											<YAxis
-												// domain={[0, 'dataMax']}
-												domain={[0, yMax]}
-												tick={{ fontSize: 15, fill: '#61dafb' }}
-												tickFormatter={(value) => `$${value}`}
-											/>
-											<Tooltip
-												contentStyle={{ backgroundColor: '#282c34' }}
-												formatter={(value, name) => [value, `${name}`]}
-											/>
-											<Legend />
-											<Line
-												type="monotone"
-												dataKey="fbm_sales"
-												stroke="#82ca9d"
-											/>
-											<Line
-												type="monotone"
-												dataKey="threshold"
-												stroke="red"
-												dot={false} // Remove dots if you don't want them on the threshold line
-											/>
-											<Line
-												type="monotone"
-												dataKey="fba_sales"
-												stroke="#8884d8"
-											/>
-											<Line
-												type="monotone"
-												dataKey="fba_pending_sales"
-												stroke="#065535"
-											/>
-										</LineChart>
-									</ResponsiveContainer>
+												<XAxis
+													dataKey="date"
+													tick={{ fontSize: 12, fill: '#61dafb' }}
+													tickFormatter={(value) => `${value}`}
+												/>
+												<YAxis
+													// domain={[0, 'dataMax']}
+													domain={[0, yMax]}
+													tick={{ fontSize: 15, fill: '#61dafb' }}
+													tickFormatter={(value) => `$${value}`}
+												/>
+												<Tooltip
+													contentStyle={{ backgroundColor: '#282c34' }}
+													formatter={(value, name) => [value, `${name}`]}
+												/>
+												<Legend />
+												<Line
+													type="monotone"
+													dataKey="fbm_sales"
+													stroke="#82ca9d"
+												/>
+												<Line
+													type="monotone"
+													dataKey="threshold"
+													stroke="red"
+													dot={false} // Remove dots if you don't want them on the threshold line
+												/>
+												<Line
+													type="monotone"
+													dataKey="fba_sales"
+													stroke="#8884d8"
+												/>
+												<Line
+													type="monotone"
+													dataKey="fba_pending_sales"
+													stroke="#065535"
+												/>
+											</LineChart>
+										</ResponsiveContainer>
+									</div>
+									<div className="absolute top-36 -left-32 -ml-2 -rotate-90 text-center">
+										{/* Slider to adjust yMax */}
+										<Badge
+											name={`Adjust Y-Axis Max: ${yMax}`}
+											className="font-bold hover:bg-amber-100"
+										/>
+										<input
+											type="range"
+											min={100}
+											max="1000"
+											value={yMax}
+											className="range range-xs "
+											onChange={handleRangeChange}
+										/>
+									</div>
 								</div>
-								<div className="absolute top-36 -left-32 -ml-2 -rotate-90 text-center">
-									{/* Slider to adjust yMax */}
-									<Badge
-										name={`Adjust Y-Axis Max: ${yMax}`}
-										className="font-bold hover:bg-amber-100"
-									/>
-									<input
-										type="range"
-										min={100}
-										max="1000"
-										value={yMax}
-										className="range range-xs "
-										onChange={handleRangeChange}
-									/>
-								</div>
-							</div>
+							</>
 						)) ||
 						(selectedChart === 'bar-chart' && (
-							<ResponsiveContainer width="100%" height={400}>
-								<h1>Order Data</h1>
-								<BarChart
-									data={json_data}
-									margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-									<XAxis
-										dataKey="date"
-										tick={{ fontSize: 12, fill: '#61dafb' }}
-										tickFormatter={(value) => `${value}`}
-									/>
-									<YAxis tick={{ fontSize: 15, fill: '#61dafb' }} />
-									<Tooltip
-										contentStyle={{ backgroundColor: '#282c34' }}
-										formatter={(value, name) => [value, `${name}`]}
-									/>
-									<Legend />
-									<Bar dataKey="total_order_count" stackId="b" fill="#ffc658" />
-									<Bar
-										dataKey="order_pending_count"
-										stackId="b"
-										fill="#ffe4e1"
-									/>
-									<Bar dataKey="shipped_order_count" stackId="b" fill="green" />
-								</BarChart>
-							</ResponsiveContainer>
+							<>
+								<h1 className="flex justify-center text-xl font-semibold">
+									Order Count Chart
+								</h1>
+								<ResponsiveContainer width="100%" height={400}>
+									<BarChart
+										data={json_data}
+										margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+										<XAxis
+											dataKey="date"
+											tick={{ fontSize: 12, fill: '#61dafb' }}
+											tickFormatter={(value) => `${value}`}
+										/>
+										<YAxis tick={{ fontSize: 15, fill: '#61dafb' }} />
+										<Tooltip
+											contentStyle={{ backgroundColor: '#282c34' }}
+											formatter={(value, name) => [value, `${name}`]}
+										/>
+										<Legend />
+										<Bar
+											dataKey="total_order_count"
+											stackId="b"
+											fill="#ffc658"
+										/>
+										<Bar
+											dataKey="order_pending_count"
+											stackId="b"
+											fill="#ffe4e1"
+										/>
+										<Bar
+											dataKey="shipped_order_count"
+											stackId="b"
+											fill="green"
+										/>
+									</BarChart>
+								</ResponsiveContainer>
+							</>
 						)) ||
 						(selectedChart === 'default' && (
 							<div className="bg-custom-bg flex justify-center p-20 rounded-xl">
@@ -328,13 +349,13 @@ export const Chart = ({ threshold }) => {
 						))}
 				</div>
 				{selectedChart !== 'default' && (
-					<div className="flex justify-center py-2 shadow">
-						<h3 className="flex self-center pr-4 font-semibold text-center px-4">
+					<div className="flex flex-col justify-center self-center items-center p-2 shadow">
+						<h3 className="flex self-center px-4 py-2 font-semibold text-center">
 							Adjust Timeline:
 						</h3>
 						<select
 							value={selectedView}
-							className="bg-custom-bg rounded-lg px-2 py-1 cursor-pointer"
+							className="bg-custom-bg rounded-lg px-2 py-1 cursor-pointe min-w-[14rem]"
 							onChangeCapture={handleSelectChange}>
 							<option value="default">Choose Range</option>
 							<option value="Weekly View">Weekly View</option>
