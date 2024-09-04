@@ -17,11 +17,9 @@ function App() {
 
 	const [data, setData] = useState(null)
 	const [threshold, set_Threshold] = useState(null)
-	const [fbm_sales, setFbm_sales] = useState(null)
 	const [temp_threshold, setTemp_threshold] = useState(
 		localStorage.getItem('threshold') || 999.99
 	)
-
 	const [last_updated, setLast_updated] = useState('')
 
 	// Function to handle changes in the input field
@@ -89,6 +87,7 @@ function App() {
 		const fetchData = async () => {
 			// Check current threshold value
 			// console.log('threshold: ', threshold)
+
 			// Make a GET request to the API
 			axios
 				.get(`${apiUrl}/get_firebase_data`)
@@ -99,26 +98,26 @@ function App() {
 					// Initialize an empty array to store the formatted data
 					const formattedData = []
 
-					var dataPoint = {}
+					// Loop through the rawData
 					Object.keys(rawData).forEach((key) => {
-						// Create a new object for each data point
-						dataPoint = rawData[key]
-						// Print the data point to the console
-						// console.log('dataPoint: ', dataPoint);
+						const dataPoint = {
+							date: rawData[key].date,
+							fba_sales: [rawData[key].fba_sales],
+							fbm_sales: [rawData[key].fbm_sales],
+							fba_pending_sales: [rawData[key].fba_pending_sales],
+							fbm_pending_sales: [rawData[key].fbm_pending_sales],
+							total_order_count: [rawData[key].total_order_count],
+							order_pending_count: [rawData[key].order_pending_count],
+							shipped_order_count: [rawData[key].shipped_order_count],
+							// threshold: [rawData[key].threshold]
+							// threshold: threshold,
+						}
+
+						// Push the data point into the formattedData array
+						formattedData.push(dataPoint)
 					})
-					// Push the data point into the formattedData array
-					formattedData.push(dataPoint)
 
 					console.log('formattedData_App.js: ', formattedData)
-
-					// Find the last entry in formattedData
-					const lastEntry = formattedData[formattedData.length - 1]
-
-					// Print the value in 'fbm_sales'[0]
-					console.log('fbm_sales[0]: ', lastEntry.fbm_sales[0])
-
-					// Set the fbm_sales state to the value in 'fbm_sales'[0]
-					setFbm_sales(lastEntry.fbm_sales[0])
 
 					setData(formattedData)
 				})

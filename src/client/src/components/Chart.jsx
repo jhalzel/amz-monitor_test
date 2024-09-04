@@ -81,6 +81,7 @@ export const Chart = ({ threshold }) => {
 				// Filter data to only show the last 7 days
 				filteredData = data.filter((item) => {
 					const itemDate = new Date(item.date)
+					console.log('itemDate: ', itemDate >= last7Days)
 					return itemDate >= last7Days
 				})
 				break
@@ -109,7 +110,8 @@ export const Chart = ({ threshold }) => {
 				})
 		}
 
-		console.log('filtered data: ', data)
+		console.log('filtered data (Chart.jsx): ', filteredData)
+
 		setJson_data(filteredData)
 	}
 
@@ -135,6 +137,7 @@ export const Chart = ({ threshold }) => {
 							fba_sales: [rawData[key].fba_sales],
 							fbm_sales: [rawData[key].fbm_sales],
 							fba_pending_sales: [rawData[key].fba_pending_sales],
+							fbm_pending_sales: [rawData[key].fbm_pending_sales],
 							total_order_count: [rawData[key].total_order_count],
 							order_pending_count: [rawData[key].order_pending_count],
 							shipped_order_count: [rawData[key].shipped_order_count],
@@ -147,9 +150,6 @@ export const Chart = ({ threshold }) => {
 						console.log('formattedData_Chart.jsx: ', formattedData)
 					})
 
-					// Set json_data
-					// setJson_data(filter_dates(selectedView, formattedData))
-					// setTemp(filter_dates({target: {value: 'Monthly View'}}, formattedData));
 					setOriginal_data(filter_dates(selectedView, formattedData))
 				})
 				.catch((err) => {
@@ -320,9 +320,7 @@ export const Chart = ({ threshold }) => {
 							</ResponsiveContainer>
 						)) ||
 						(selectedChart === 'default' && (
-							<div
-								className="bg-custom-bg flex justify-center p-20 rounded-xl"
-								onClick={handleSelectChange}>
+							<div className="bg-custom-bg flex justify-center p-20 rounded-xl">
 								<h2 className="text-2xl font-semibold ">
 									Select a Chart View...
 								</h2>

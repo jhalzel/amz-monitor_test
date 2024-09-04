@@ -18,7 +18,7 @@ function Home({ data, threshold, last_updated }) {
 
 			{data ? (
 				<>
-					<Metrics data={data[0]} />
+					<Metrics data={data} />
 					<Chart threshold={threshold} />
 				</>
 			) : (
