@@ -3,38 +3,38 @@ name: run main.py
 on:
   schedule:
     - cron: '0,15,30,45 * * * *' # run exactly every 15 minutes
-  push:
-    paths:
-      - 'src/trial.py'
-      - 'src/data.json' # this file changes when data is updated
-      - 'src/config.json' # this file changes when config is updated
-      - 'src/script.py' # this file changes when script is updated
-  repository_dispatch:
-    types: [resume_schedule]
+  # push:
+  #   paths:
+  #     - 'src/trial.py'
+  #     - 'src/data.json' # this file changes when data is updated
+  #     - 'src/config.json' # this file changes when config is updated
+  #     - 'src/script.py' # this file changes when script is updated
+  # repository_dispatch:
+  #   types: [resume_schedule]
 
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
     
     steps:
       - name: checkout repo content
         uses: actions/checkout@v4 # checkout the repository content to GitHub runner
         
-      - name: setup node
-        uses: actions/setup-node@v3
-        with: 
-          node-version: '20'
+      # - name: setup node
+      #   uses: actions/setup-node@v3
+      #   with: 
+      #     node-version: '20'
 
       - name: setup python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9' # install the python version needed
       
-      - name: Set Firebase Admin Key as Environment Variable
-        run: |
-          echo "$FIREBASE_ADMIN_KEY" > firebase_admin_key.json
-        env:
-          FIREBASE_ADMIN_KEY: ${{ secrets.FIREBASE_ADMIN_KEY }}
+      # - name: Set Firebase Admin Key as Environment Variable
+      #   run: |
+      #     echo "$FIREBASE_ADMIN_KEY" > firebase_admin_key.json
+      #   env:
+      #     FIREBASE_ADMIN_KEY: ${{ secrets.FIREBASE_ADMIN_KEY }}
 
       - name: Restore cache
         uses: actions/cache@v2
