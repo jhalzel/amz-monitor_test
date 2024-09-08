@@ -4,22 +4,8 @@ import { useAuth } from '../../../context/authContext'
 import {
 	doSignInAnonymously,
 	doSignInWithEmailAndPassword,
+	doSignInWithGoogle,
 } from '../../../firebase/auth'
-
-export const onGoogleSignIn = (
-	e,
-	isSigningIn,
-	setIsSigningIn,
-	doSignInWithGoogle
-) => {
-	e.preventDefault()
-	if (!isSigningIn) {
-		setIsSigningIn(true)
-		doSignInWithGoogle().catch((err) => {
-			setIsSigningIn(false)
-		})
-	}
-}
 
 const Login = () => {
 	const { userLoggedIn } = useAuth()
@@ -29,11 +15,30 @@ const Login = () => {
 	const [isSigningIn, setIsSigningIn] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
 
+	const googleSignIn = async (e) => {
+		e.preventDefault()
+		if(!isSigningIn) {
+			setIsSigningIn(true)
+			try {
+				await doSignInWithGoogle(e)
+			}
+			catch (err) {
+				setErrorMessage(err.message)
+				setIsSigningIn(false)
+			}
+		}
+	}
+
+
 	const onSubmit = async (e) => {
 		e.preventDefault()
 		if (!isSigningIn) {
-			setIsSigningIn(true)
-			doSignInWithEmailAndPassword(email, password)
+			try {
+				await doSignInWithEmailAndPassword(email, password)
+			} catch (err) {
+				setErrorMessage(err.message)
+				setIsSigningIn(false)
+			}
 		}
 	}
 
@@ -113,7 +118,7 @@ const Login = () => {
 					<button
 						disabled={isSigningIn}
 						onClick={(e) => {
-							onGoogleSignIn(e)
+							doSignInWithGoogle(e)
 						}}
 						className={`w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium  ${
 							isSigningIn

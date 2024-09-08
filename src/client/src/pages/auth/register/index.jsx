@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Navigate, Link, useNavigate } from 'react-router-dom'
-import { onGoogleSignIn } from '../login'
+// import { onGoogleSignIn } from '../login'
 import { useAuth } from '../../../context/authContext'
 import { doSignInAnonymously, doSignInWithGoogle } from '../../../firebase/auth'
 import { doCreateUserWithEmailAndPassWord } from '../../../firebase/auth'
@@ -16,6 +16,21 @@ const Register = () => {
 	const [isSigningIn, setIsSigningIn] = useState(false)
 
 	const { userLoggedIn } = useAuth()
+
+	const onGoogleSignIn = (
+		e,
+		isSigningIn,
+		setIsSigningIn,
+		doSignInWithGoogle
+	) => {
+		e.preventDefault()
+		if (!isSigningIn) {
+			setIsSigningIn(true)
+			doSignInWithGoogle().catch((err) => {
+				setIsSigningIn(false)
+			})
+		}
+	}
 
 	const onSubmit = async (e) => {
 		e.preventDefault()

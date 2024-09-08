@@ -552,7 +552,7 @@ def main():
             
     # get the dates from the database  
     dates = [d['date'] for d in firebase_db.values()]
-    print('dates: ', dates)
+    # print('dates: ', dates)
 
     if cur_date not in dates:
         print("current date not in list of dates")

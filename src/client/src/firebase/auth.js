@@ -24,6 +24,7 @@ export const doSignInWithGoogle = async () => {
 	// result.user - store in firestore maybe
 	return result
 }
+
 export const doSignInAnonymously = async () => {
 	return signInAnonymously(auth)
 }

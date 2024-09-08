@@ -42,7 +42,15 @@ export default function SideBar() {
 				<ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
 					{/* Sidebar content here */}
 					<li>
-						<a onClick={toggleDrawer}>HomePage</a>
+						{userLoggedIn ? (
+							<Link onClick={toggleDrawer} to={'/home'}>
+								HomePage
+							</Link>
+						) : (
+							<Link onClick={toggleDrawer} to={'/login'}>
+								HomePage
+							</Link>
+						)}
 					</li>
 					<li>
 						{userLoggedIn ? (

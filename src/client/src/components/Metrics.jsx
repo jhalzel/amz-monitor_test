@@ -52,7 +52,7 @@ export default function Metrics({ data }) {
 			default:
 				console.log('default')
 				// Filter data to only show the last 7 days
-				filteredData = data.filter((item) => new Date(item.date) >= last30Days)
+				filteredData = data.filter((item) => new Date(item.date) >= last7Days)
 		}
 
 		const summedData = {
@@ -105,8 +105,8 @@ export default function Metrics({ data }) {
 					className="bg-custom-bg rounded-lg px-2 py-1 cursor-pointer"
 					onChange={handleSelectChange}>
 					{/* <option value="">Choose Range</option> */}
-					<option value="Weekly View">Weekly Sales</option>
-					<option value="default">Monthly Sales</option>
+					<option value="default">Weekly Sales</option>
+					<option value="Monthly View">Monthly Sales</option>
 					<option value="90 Day View">90 Day Sales</option>
 				</select>
 			</div>

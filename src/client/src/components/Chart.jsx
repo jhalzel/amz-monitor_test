@@ -31,6 +31,7 @@ export const Chart = ({ threshold }) => {
 	const [original_data, setOriginal_data] = useState([])
 	const [selectedView, setSelectedView] = useState('default')
 	const [selectedChart, setSelectedChart] = useState('default')
+	const [chartName, setChartName] = useState('')
 
 	const apiUrl = 'https://amazon-ecom-alarm.onrender.com'
 	// const apiUrl = 'http://127.0.0.1:5000/';
@@ -175,20 +176,41 @@ export const Chart = ({ threshold }) => {
 					className="bg-custom-bg rounded-lg px-2 py-1 cursor-pointer"
 					onChangeCapture={(e) => handleChartChange(e)}>
 					<option value="default">Choose Chart</option>
-					<option value="line-chart">Line Chart</option>
-					<option value="bar-chart">Bar Chart</option>
-					<option value="area-chart">Area Chart</option>
+					<option value="Line Chart (Sales)">Line Chart</option>
+					<option value="Bar Chart (Orders)">Bar Chart</option>
+					<option value="Area Chart (Sales)">Area Chart</option>
 					{/* default to weekly */}
 				</select>
 			</div>
 
 			<>
 				<div className="mx-8 my-6">
-					{(selectedChart === 'area-chart' && (
-						<>
-							<h1 className="flex justify-center text-xl font-semibold">
-								Sales Area Chart
+					{selectedChart !== 'default' && (
+						<div className="grid grid-rows-2 min-h-fit items-center">
+							<h1 className="text-center justify-self-center text-3xl font-semibold">
+								{selectedChart}
 							</h1>
+
+							<div className="flex justify-center mt-2">
+								<h3 className="px-4 py-1 font-semibold text-center">
+									Adjust Timeline:
+								</h3>
+								<select
+									value={selectedView}
+									className="bg-custom-bg rounded-lg py-1.5 cursor-pointer
+												text-center min-w-[9rem]"
+									onChangeCapture={handleSelectChange}>
+									<option value="default">Choose Range</option>
+									<option value="Weekly View">Weekly View</option>
+									<option value="Monthly View">Monthly View</option>
+									<option value="90 Day View">90 Day View</option>
+									{/* default to weekly */}
+								</select>
+							</div>
+						</div>
+					)}
+					{(selectedChart === 'Area Chart (Sales)' && (
+						<>
 							<ResponsiveContainer width="100%" height={400}>
 								<AreaChart
 									data={json_data}
@@ -225,13 +247,10 @@ export const Chart = ({ threshold }) => {
 							</ResponsiveContainer>
 						</>
 					)) ||
-						(selectedChart === 'line-chart' && (
+						(selectedChart === 'Line Chart (Sales)' && (
 							<>
-								<h1 className="flex justify-center text-xl font-semibold">
-									Sales Line Chart
-								</h1>
-								<div className="relative">
-									<div>
+								<div className="relative flex justify-center">
+									<div className="min-w-full">
 										<ResponsiveContainer
 											width="100%"
 											height={400}
@@ -301,11 +320,11 @@ export const Chart = ({ threshold }) => {
 								</div>
 							</>
 						)) ||
-						(selectedChart === 'bar-chart' && (
+						(selectedChart === 'Bar Chart (Orders)' && (
 							<>
-								<h1 className="flex justify-center text-xl font-semibold">
+								{/* <h1 className="flex justify-center text-xl font-semibold">
 									Order Count Chart
-								</h1>
+								</h1> */}
 								<ResponsiveContainer width="100%" height={400}>
 									<BarChart
 										data={json_data}
@@ -348,23 +367,6 @@ export const Chart = ({ threshold }) => {
 							</div>
 						))}
 				</div>
-				{selectedChart !== 'default' && (
-					<div className="flex flex-col justify-center self-center items-center p-2 shadow">
-						<h3 className="flex self-center px-4 py-2 font-semibold text-center">
-							Adjust Timeline:
-						</h3>
-						<select
-							value={selectedView}
-							className="bg-custom-bg rounded-lg px-2 py-1 cursor-pointe min-w-[14rem]"
-							onChangeCapture={handleSelectChange}>
-							<option value="default">Choose Range</option>
-							<option value="Weekly View">Weekly View</option>
-							<option value="Monthly View">Monthly View</option>
-							<option value="90 Day View">90 Day View</option>
-							{/* default to weekly */}
-						</select>
-					</div>
-				)}
 			</>
 		</>
 	)
