@@ -102,7 +102,6 @@ def get_json_data():
     
 
 
-
 # Route to retrieve the data from the firebase database (GET)
 @app.route('/get_firebase_data', methods=['GET'])
 @cross_origin("*", methods=['GET'], headers=['Content-Type'])
@@ -142,13 +141,8 @@ def set_firebase_data():
     if data_keys:
         last_key = data_keys[-1]  # Access the key of the last object
         last_entry = database_data[last_key]  # Access the last object using the key
-        print("Last entry:", last_entry)
         threshold = last_entry.get('threshold')
-        print('threshold: ', threshold)
         
-        # Update the threshold value in the last entry
-        # last_entry['threshold'] = [fbm_threshold]
-
         # Update the value in Firebase for the specific child object (last entry)
         ref.child(last_key).update({'threshold': [fbm_threshold]})
 

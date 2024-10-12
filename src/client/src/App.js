@@ -5,12 +5,8 @@ import Register from './pages/auth/register'
 import Home from './pages/Home'
 import { AuthProvider } from './context/authContext'
 import { useRoutes } from 'react-router-dom'
-import { formatNiceDate } from './utils/formatting'
 import NavBar from './components/NavBar'
-import Chart from './components/Chart'
-import Badge from './components/Badge'
 import axios from 'axios'
-import Metrics from './components/Metrics'
 
 function App() {
 	const apiUrl = 'https://amazon-ecom-alarm.onrender.com'
@@ -109,8 +105,6 @@ function App() {
 							total_order_count: [rawData[key].total_order_count],
 							order_pending_count: [rawData[key].order_pending_count],
 							shipped_order_count: [rawData[key].shipped_order_count],
-							// threshold: [rawData[key].threshold]
-							// threshold: threshold,
 						}
 
 						// Push the data point into the formattedData array
