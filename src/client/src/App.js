@@ -6,15 +6,15 @@ import Home from './pages/Home'
 import { AuthProvider } from './context/authContext'
 import { useRoutes } from 'react-router-dom'
 import NavBar from './components/NavBar'
-import axios from 'axios'
+// import axios from 'axios'
 import { useAuth } from './context/authContext'
 import { getDatabase, ref, get } from 'firebase/database'
 import { app } from './firebase/firebase'
 
 function App() {
-	const apiUrl = 'https://amazon-ecom-alarm.onrender.com'
+	// const apiUrl = 'https://amazon-ecom-alarm.onrender.com'
 
-	const { userLoggedIn } = useAuth()
+	const { currentUser, userLoggedIn } = useAuth()
 	const [data, setData] = useState(null)
 	const [threshold, set_Threshold] = useState(null)
 	const [temp_threshold, setTemp_threshold] = useState(
@@ -22,43 +22,43 @@ function App() {
 	)
 	const [last_updated, setLast_updated] = useState('')
 
-	// Function to handle changes in the input field
-	const handleThresholdChange = (e) => {
-		setTemp_threshold(e.target.value)
-	}
+	// // Function to handle changes in the input field
+	// const handleThresholdChange = (e) => {
+	// 	setTemp_threshold(e.target.value)
+	// }
 
-	// Function to handle the "Enter" key press
-	const handleKeyPress = (e) => {
-		if (e.key === 'Enter') {
-			// Update the value of the text box when "Enter" key is pressed
-			set_Threshold(e.target.value)
-		}
-	}
+	// // Function to handle the "Enter" key press
+	// const handleKeyPress = (e) => {
+	// 	if (e.key === 'Enter') {
+	// 		// Update the value of the text box when "Enter" key is pressed
+	// 		set_Threshold(e.target.value)
+	// 	}
+	// }
 
-	// Function to handle the button click
-	const handleClick = () => {
-		// Update the value of the text box when the button is clicked
-		set_Threshold(temp_threshold)
-	}
+	// // Function to handle the button click
+	// const handleClick = () => {
+	// 	// Update the value of the text box when the button is clicked
+	// 	set_Threshold(temp_threshold)
+	// }
 
-	const handleEdit = () => {
-		// Update the value of the text box when the button is clicked
-		set_Threshold(null)
-	}
+	// const handleEdit = () => {
+	// 	// Update the value of the text box when the button is clicked
+	// 	set_Threshold(null)
+	// }
 
-	const updateFirebaseThreshold = (newThreshold) => {
-		// Make a POST request to the API
-		axios
-			.post(`${apiUrl}/set_firebase_data`, { threshold: newThreshold })
-			.then((response) => {
-				// Handle the response if needed
-				console.log('Threshold updated successfully')
-			})
-			.catch((error) => {
-				// Handle errors
-				console.error('Failed to update threshold:', error)
-			})
-	}
+	// const updateFirebaseThreshold = (newThreshold) => {
+	// 	// Make a POST request to the API
+	// 	axios
+	// 		.post(`${apiUrl}/set_firebase_data`, { threshold: newThreshold })
+	// 		.then((response) => {
+	// 			// Handle the response if needed
+	// 			console.log('Threshold updated successfully')
+	// 		})
+	// 		.catch((error) => {
+	// 			// Handle errors
+	// 			console.error('Failed to update threshold:', error)
+	// 		})
+	// }
 
 	const fetchData = () => {
 		const db = getDatabase(app)
@@ -101,6 +101,9 @@ function App() {
 
 	useEffect(() => {
 		if (userLoggedIn) {
+			const db = getDatabase(app)
+			const dbRef = ref(db, `data/${currentUser.uid}`)
+
 			fetchData() // Initial fetch
 
 			const interval = setInterval(fetchData, 300000) // Fetch every 5 minutes (adjust as needed)

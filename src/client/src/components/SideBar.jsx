@@ -25,12 +25,12 @@ export default function SideBar() {
 			<label
 				htmlFor="my-drawer"
 				className="btn btn-link group h-7 w-14 rounded-lg border-2">
-				<div class="grid justify-items-center gap-1.5">
-					<span class="h-1 w-8 rounded-full bg-neutral-content  transition group-hover:rotate-45 group-hover:translate-y-2.5"></span>
+				<div className="grid justify-items-center gap-1.5">
+					<span className="h-1 w-8 rounded-full bg-neutral-content  transition group-hover:rotate-45 group-hover:translate-y-2.5"></span>
 
-					<span class="h-1 w-8 rounded-full bg-neutral-content  group-hover:scale-x-0 transition"></span>
+					<span className="h-1 w-8 rounded-full bg-neutral-content  group-hover:scale-x-0 transition"></span>
 
-					<span class="h-1 w-8 rounded-full bg-neutral-content   group-hover:-rotate-45 group-hover:-translate-y-2.5"></span>
+					<span className="h-1 w-8 rounded-full bg-neutral-content   group-hover:-rotate-45 group-hover:-translate-y-2.5"></span>
 				</div>
 			</label>
 			{/* </div> */}
