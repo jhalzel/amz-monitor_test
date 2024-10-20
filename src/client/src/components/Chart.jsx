@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getDatabase, ref, get } from 'firebase/database'
-import { app } from '../firebase/firebase'
-import { filter_dates } from '../utils/actions'
+
 import {
 	BarChart,
 	LineChart,
