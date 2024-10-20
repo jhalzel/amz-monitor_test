@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-// import { useSelector } from 'react-redux'
-import axios from 'axios'
-import Badge from './Badge'
+import { getDatabase, ref, get } from 'firebase/database'
+import { app } from '../firebase/firebase'
+import { filter_dates } from '../utils/actions'
 import {
 	BarChart,
 	LineChart,
@@ -16,9 +16,10 @@ import {
 	Legend,
 	ResponsiveContainer,
 } from 'recharts'
+import Badge from './Badge'
 import '../App.css'
 
-export const Chart = ({ threshold }) => {
+export const Chart = ({ threshold, selectedView, data }) => {
 	// Initialize the Y-axis range state
 	const [yMax, setYMax] = useState(500)
 
@@ -27,18 +28,12 @@ export const Chart = ({ threshold }) => {
 	}
 
 	// const threshold = useSelector((state) => state.target.fbm_threshold)
-	const [json_data, setJson_data] = useState([])
+	// const [json_data, setJson_data] = useState([])
 	const [original_data, setOriginal_data] = useState([])
-	const [selectedView, setSelectedView] = useState('default')
 	const [selectedChart, setSelectedChart] = useState('default')
-	const [chartName, setChartName] = useState('')
 
 	const apiUrl = 'https://amazon-ecom-alarm.onrender.com'
 	// const apiUrl = 'http://127.0.0.1:5000/';
-
-	const handleSelectChange = (e) => {
-		setSelectedView(e.target.value)
-	}
 
 	const handleChartChange = (event) => {
 		const selectedValue = event.target.value
@@ -46,124 +41,11 @@ export const Chart = ({ threshold }) => {
 		setSelectedChart(selectedValue)
 	}
 
-	const filter_dates = (e, data) => {
-		// Set the selectedView state
-		// console.log(e.target.value);
-
-		// Get current date
-		const today = new Date()
-
-		// Get the last 7 days
-		const last7Days = new Date(
-			today.getFullYear(),
-			today.getMonth(),
-			today.getDate() - 7
-		)
-		// Get the last 30 days
-		const last30Days = new Date(
-			today.getFullYear(),
-			today.getMonth(),
-			today.getDate() - 30
-		)
-		// Get the last 90 days
-		const last90Days = new Date(
-			today.getFullYear(),
-			today.getMonth(),
-			today.getDate() - 90
-		)
-
-		// Create a variable to store the filtered data
-		let filteredData = []
-
-		// case and switch statement to filter data based on button clicked
-		switch (e) {
-			case 'Weekly View':
-				console.log('Weekly View')
-				// Filter data to only show the last 7 days
-				filteredData = data.filter((item) => {
-					const itemDate = new Date(item.date)
-					console.log('itemDate: ', itemDate >= last7Days)
-					return itemDate >= last7Days
-				})
-				break
-			case 'Monthly View':
-				console.log('Monthly View')
-				// Filter data to only show the last 30 days
-				filteredData = data.filter((item) => {
-					const itemDate = new Date(item.date)
-					return itemDate >= last30Days
-				})
-				break
-			case '90 Day View':
-				console.log('90 Day View')
-				// Filter data to only show the last 90 days
-				filteredData = data.filter((item) => {
-					const itemDate = new Date(item.date)
-					return itemDate >= last90Days
-				})
-				break
-			default:
-				console.log('default')
-				// Filter data to only show the last 7 days
-				filteredData = data.filter((item) => {
-					const itemDate = new Date(item.date)
-					return itemDate >= last30Days
-				})
-		}
-
-		console.log('filtered data (Chart.jsx): ', filteredData)
-
-		setJson_data(filteredData)
-	}
-
 	// Fetch the data from the API
 	useEffect(() => {
-		// Function to fetch the data from the API
-		const fetchData = async () => {
-			axios
-				.get(`${apiUrl}/get_firebase_data`)
-				.then((response) => {
-					console.log('response: ', response.data)
-					// Parse the JSON data
-					const rawData = response.data
-
-					console.log(rawData)
-					// Initialize an empty array to store the formatted data
-					const formattedData = []
-
-					// Loop through the rawData
-					Object.keys(rawData).forEach((key) => {
-						const dataPoint = {
-							date: rawData[key].date,
-							fba_sales: [rawData[key].fba_sales],
-							fbm_sales: [rawData[key].fbm_sales],
-							fba_pending_sales: [rawData[key].fba_pending_sales],
-							fbm_pending_sales: [rawData[key].fbm_pending_sales],
-							total_order_count: [rawData[key].total_order_count],
-							order_pending_count: [rawData[key].order_pending_count],
-							shipped_order_count: [rawData[key].shipped_order_count],
-							// threshold: [rawData[key].threshold]
-							// threshold: threshold,
-						}
-
-						// Push the data point into the formattedData array
-						formattedData.push(dataPoint)
-						console.log('formattedData_Chart.jsx: ', formattedData)
-					})
-
-					setOriginal_data(filter_dates(selectedView, formattedData))
-				})
-				.catch((err) => {
-					console.log(err)
-				})
-		}
-
-		fetchData() // Initial fetch
-
-		const interval = setInterval(fetchData, 300000) // Fetch every 5 minutes (adjust as needed)
-
-		return () => clearInterval(interval) // Cleanup function to clear the interval
-	}, [original_data, selectedView, selectedChart])
+		console.log(selectedView)
+		console.log('data: ', data)
+	}, [selectedView, data])
 
 	return (
 		<>
@@ -185,35 +67,11 @@ export const Chart = ({ threshold }) => {
 
 			<>
 				<div className="mx-8 my-6">
-					{selectedChart !== 'default' && (
-						<div className="grid grid-rows-2 min-h-fit items-center">
-							<h1 className="text-center justify-self-center text-3xl font-semibold">
-								{selectedChart}
-							</h1>
-
-							<div className="flex justify-center mt-2">
-								<h3 className="px-4 py-1 font-semibold text-center">
-									Adjust Timeline:
-								</h3>
-								<select
-									value={selectedView}
-									className="bg-custom-bg rounded-lg py-1.5 cursor-pointer
-												text-center min-w-[9rem]"
-									onChangeCapture={handleSelectChange}>
-									<option value="default">Choose Range</option>
-									<option value="Weekly View">Weekly View</option>
-									<option value="Monthly View">Monthly View</option>
-									<option value="90 Day View">90 Day View</option>
-									{/* default to weekly */}
-								</select>
-							</div>
-						</div>
-					)}
 					{(selectedChart === 'Area Chart (Sales)' && (
 						<>
 							<ResponsiveContainer width="100%" height={400}>
 								<AreaChart
-									data={json_data}
+									data={data}
 									width="100%"
 									height={400}
 									margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -256,7 +114,7 @@ export const Chart = ({ threshold }) => {
 											height={400}
 											className="my-6">
 											<LineChart
-												data={json_data}
+												data={data}
 												width="100%"
 												height={400}
 												margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -327,7 +185,7 @@ export const Chart = ({ threshold }) => {
 								</h1> */}
 								<ResponsiveContainer width="100%" height={400}>
 									<BarChart
-										data={json_data}
+										data={data}
 										margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
 										<XAxis
 											dataKey="date"
